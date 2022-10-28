@@ -1,0 +1,35 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Viktor Blomqvist
+	username = vikblom
+	email = veblomqvist@gmail.com
+[user]
+    name = Viktor Blomqvist
+    email = veblomqvist@gmail.com
+[core]
+    editor = vim
+	pager = less -FXR
+[push]
+	default = current
+[color]
+    ui = true
+[format]
+    pretty = tformat:%C(bold blue)<%h>%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)
+[alias]
+    push-all = !"git remote | xargs -L1 git push --all"
+    lg = !"git log -n 10"
+    logg = !"git lg2-specific --all"
+    loggy = !"git lg3-specific --all"
+
+    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset)%n          %C(dim white)- %an%C(reset)'
+    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true
+[diff]
+	colorMoved = zebra
+[url "git@github.com:/vikblom"]
+     insteadOf = https://github.com/vikblom
