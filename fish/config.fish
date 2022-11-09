@@ -2,7 +2,8 @@
 
 # ENV
 # Path through: set -Ua fish_user_paths $HOME/.cargo/bin
-set -gx LESS '-r'
+set -x LESS '-r'
+set -x PAGER 'less -FX'
 
 # ALIAS
 alias grep='grep --color=auto'
@@ -14,9 +15,24 @@ alias l='ls -CF'
 alias asp='unbuffer apt search --names-only'
 alias ssh='TERM=xterm-256color /usr/bin/ssh'
 alias hms='home-manager switch'
+alias ssh='TERM=xterm-256color /usr/bin/ssh'
+alias dcu='docker compose up -d'
+alias dcd='docker compose down'
 
 function ec --description 'emacsclient --nw ...'
     emacsclient --nw $argv
+end
+
+function octal
+    stat -c '%a %n' $argv
+end
+
+function docker-purge --description 'Stop and remove all containers.'
+    docker ps -aq | xargs docker stop | xargs docker rm
+end
+
+# Fish
+function fish_greeting
 end
 
 set -g __fish_git_prompt_shorten_branch_len '20'
@@ -53,3 +69,8 @@ function fish_prompt --description 'Write out the prompt'
 
     echo " "
 end
+
+fish_add_path ~/local/bin
+fish_add_path ~/.local/bin
+fish_add_path ~/local/go/bin
+fish_add_path ~/go/bin

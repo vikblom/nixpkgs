@@ -1,35 +1,37 @@
-# This is Git's per-user configuration file.
-[user]
-	name = Viktor Blomqvist
-	username = vikblom
-	email = veblomqvist@gmail.com
 [user]
     name = Viktor Blomqvist
-    email = veblomqvist@gmail.com
-[core]
-    editor = vim
-	pager = less -FXR
-[push]
-	default = current
+    # Don't set email, do that in override, so that there is control over it.
 [color]
-    ui = true
-[format]
-    pretty = tformat:%C(bold blue)<%h>%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)
+    ui = auto
 [alias]
-    push-all = !"git remote | xargs -L1 git push --all"
-    lg = !"git log -n 10"
-    logg = !"git lg2-specific --all"
-    loggy = !"git lg3-specific --all"
-
-    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset)%n          %C(dim white)- %an%C(reset)'
-    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
-[pull]
-	rebase = true
-[init]
-	defaultBranch = main
-[fetch]
-	prune = true
+    new-branch = checkout --no-track -b
+    lg = log -n 10 --oneline
+    lt = log --oneline --graph
+    lgg = log -n 10 --format='format:"%C(auto)%h %s %C(green)%aN%Creset"'
+    tree = log -n 25 --oneline --graph --branches
+    draft = push -o merge_request.create -o merge_request.target=main -o merge_request.remove_source_branch -o merge_request.draft
+    stat = diff --stat origin/HEAD...HEAD
+    recent = branch --sort=-committerdate --format='%(color:yellow)%(refname:short)%(color:reset)%0a%(committerdate:relative) %(authorname)%0a'
+    prune-local = ! git branch --merged | grep -Ev '(^\\*|main|master)' | xargs -r -n 1 git branch -d
+    main = ! git checkout $(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+    ketchup = ! git main && git pull --prune && git prune-local
+[push]
+    default = current
+[core]
+    excludesfile = ~/.gitignore
+	pager = less -FX
+[checkout]
+    defaultRemote = origin
+#[branch]
+#    autosetupmerge = always
 [diff]
 	colorMoved = zebra
-[url "git@github.com:/vikblom"]
-     insteadOf = https://github.com/vikblom
+[rebase]
+	autosquash = true
+	stat = true
+[init]
+	defaultBranch = main
+
+# Local overrides
+[include]
+    path = ~/.gitconfig-local
