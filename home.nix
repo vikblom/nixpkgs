@@ -22,6 +22,7 @@
     pkgs.fish
     pkgs.tmux
     pkgs.git
+    pkgs.direnv
     pkgs.emacs28NativeComp
 
     pkgs.go
