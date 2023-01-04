@@ -71,6 +71,7 @@ function fish_prompt --description 'Write out the prompt'
 end
 
 # Move up to before nix.
+fish_add_path -mp ~/.cargo/bin
 fish_add_path -mp ~/local/bin
 fish_add_path -mp ~/.local/bin
 fish_add_path -mp ~/local/go/bin

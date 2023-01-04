@@ -18,16 +18,25 @@
   # Or: https://search.nixos.org/packages
   home.packages = [
     pkgs.alacritty
-    pkgs.iterm2
+    pkgs.kitty
+    # FIXME: pkgs.iterm2
     pkgs.fish
     pkgs.tmux
     pkgs.git
     pkgs.direnv
     pkgs.emacs28NativeComp
+    pkgs.evince
 
     pkgs.go
     pkgs.gopls
     pkgs.delve
+
+    # pkgs.rustc
+    # pkgs.cargo
+    pkgs.rustup # So we can rustup --docs
+    pkgs.rust-analyzer
+    pkgs.gdb
+    pkgs.linuxPackages_latest.perf
 
     pkgs.fd
     pkgs.htop
@@ -52,6 +61,39 @@
   home.file.".tmux.conf".source = ./tmux/tmux.conf;
   # Collides with tools at work.
   # home.file.".gitconfig".source = ./git/gitconfig;
+
+  gtk = {
+    enable = true;
+
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+
+    theme = {
+      name = "palenight";
+      package = pkgs.palenight-theme;
+    };
+
+    cursorTheme = {
+      name = "Numix-Cursor";
+      package = pkgs.numix-cursor-theme;
+    };
+
+    gtk3.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+
+    gtk4.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+  };
+
+  home.sessionVariables.GTK_THEME = "palenight";
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
