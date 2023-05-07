@@ -41,6 +41,10 @@ in
 
   xdg.enable = true;
 
+  # Workaround for
+  # https://github.com/nix-community/home-manager/issues/3342
+  manual.manpages.enable = false;
+
   # -- Packages
 
   # Pkgs to install
@@ -52,7 +56,6 @@ in
     pkgs.git
     pkgs.direnv
     pkgs.emacs28NativeComp
-    pkgs.evince
 
     pkgs.go
     pkgs.gopls
@@ -70,6 +73,8 @@ in
 
     pkgs.cmake
 
+    pkgs.clojure-lsp
+
     pkgs.bat
     pkgs.fd
     pkgs.htop
@@ -77,6 +82,7 @@ in
     pkgs.ripgrep
     pkgs.tree
     pkgs.watch
+    pkgs.fzf
 
     pkgs.kubectl
 
@@ -90,6 +96,9 @@ in
 
   ] ++ (lib.optionals isDarwin [
     pkgs.iterm2
+    pkgs.lima
+    pkgs.colima
+    # pkgs.podman
 
   ]) ++ (lib.optionals isLinux [
     pkgs.alacritty
@@ -97,6 +106,8 @@ in
     # pkgs.chromium
     pkgs.firefox
     pkgs.rofi
+
+    pkgs.evince
   ]);
 
   # --  Env
@@ -145,7 +156,7 @@ in
   # -- Graphics
 
   gtk = {
-    enable = true;
+    enable = isLinux;
 
     iconTheme = {
       name = "Papirus-Dark";
