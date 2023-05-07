@@ -1,5 +1,9 @@
 { config, pkgs, lib, ... }:
 
+# Nix config.
+# Most parts inspired/stolen from github.com/mitchellh/nixos-config.
+#
+#
 # https://nix-community.github.io/home-manager/index.html
 # https://nixos.wiki/wiki/Cheatsheet
 # https://www.bekk.christmas/post/2021/16/dotfiles-with-nix-and-home-manager
@@ -7,19 +11,42 @@
 # https://github.com/mitchellh/nixos-config/blob/c812e681dd72dd0d818fbdce275e75171ea858b2/users/mitchellh/home-manager.nix
 #
 # https://github.com/NixOS/nixpkgs/issues/196651
+let
+  isDarwin = pkgs.stdenv.isDarwin;
+  isLinux = pkgs.stdenv.isLinux;
+
+  # Colorful MANPAGER
+  manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
+    sh -c 'col -bx | bat -l man -p'
+  '' else ''
+    col -bx | bat --language man --style plain
+  ''));
+in
 {
+  # This value determines the Home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new Home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update Home Manager without changing this value. See
+  # the Home Manager release notes for a list of state version
+  # changes in each release.
+  home.stateVersion = "22.05";
+
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "viktor";
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/viktor" else "/home/viktor";
 
+  xdg.enable = true;
+
+  # -- Packages
+
   # Pkgs to install
   # Find through: nix-env -qaP <pkg>
   # Or: https://search.nixos.org/packages
   home.packages = [
-    pkgs.alacritty
-    pkgs.kitty
-    # FIXME: pkgs.iterm2
     pkgs.fish
     pkgs.tmux
     pkgs.git
@@ -33,11 +60,17 @@
 
     # pkgs.rustc
     # pkgs.cargo
-    pkgs.rustup # So we can rustup --docs
-    pkgs.rust-analyzer
-    pkgs.gdb
-    pkgs.linuxPackages_latest.perf
+    # pkgs.rustup # So we can rustup --docs
+    # pkgs.rust-analyzer
+    # pkgs.gdb
+    # pkgs.linuxPackages_latest.perf
 
+    pkgs.nixfmt
+    pkgs.rnix-lsp
+
+    pkgs.cmake
+
+    pkgs.bat
     pkgs.fd
     pkgs.htop
     pkgs.jq
@@ -54,13 +87,61 @@
     pkgs.postgresql
     pkgs.sqlite
     pkgs.dbmate
-  ];
 
-  home.file.".config/fish/config.fish".source = ./fish/config.fish;
-  home.file.".config/fish/conf.d/nix.fish".source = ./fish/conf.d/nix.fish;
+  ] ++ (lib.optionals isDarwin [
+    pkgs.iterm2
+
+  ]) ++ (lib.optionals isLinux [
+    pkgs.alacritty
+    pkgs.kitty
+    # pkgs.chromium
+    pkgs.firefox
+    pkgs.rofi
+  ]);
+
+  # --  Env
+
+  home.sessionVariables = {
+    EDITOR = "emacsclient -nw -a emacs";
+    LESS = "-r";
+    PAGER = "less -FirSwX";
+    MANPAGER = "${manpager}/bin/manpager";
+  };
+
+  # -- Dotfiles
+
   home.file.".tmux.conf".source = ./tmux/tmux.conf;
+  xdg.configFile."i3/config".text = builtins.readFile ./i3;
+  xdg.configFile."i3status/config".text = builtins.readFile ./i3status;
+  xdg.configFile."rofi/config.rasi".text = builtins.readFile ./rofi;
   # Collides with tools at work.
   # home.file.".gitconfig".source = ./git/gitconfig;
+
+  # -- Programs
+
+  # home.file.".config/fish/config.fish".source = ./fish/config.fish;
+  # home.file.".config/fish/conf.d/nix.fish".source = ./fish/conf.d/nix.fish;
+  # is replaced by?
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
+      (builtins.readFile ./fish/config.fish)
+      "set -g SHELL ${pkgs.fish}/bin/fish"
+    ]);
+
+    shellAliases = {
+      ga = "git add";
+      gc = "git commit";
+      gco = "git checkout";
+      gdiff = "git diff";
+      gp = "git push";
+      gri = "git rebase --interactive";
+      gs = "git status";
+      gt = "git tag";
+    };
+  };
+
+  # -- Graphics
 
   gtk = {
     enable = true;
@@ -92,18 +173,8 @@
       '';
     };
   };
-
   home.sessionVariables.GTK_THEME = "palenight";
-
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "22.05";
+  xresources.extraConfig = builtins.readFile ./Xresources;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

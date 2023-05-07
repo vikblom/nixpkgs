@@ -2,8 +2,8 @@
 
 # ENV
 # Path through: set -Ua fish_user_paths $HOME/.cargo/bin
-set -x LESS '-r'
-set -x PAGER 'less -FX'
+# set -x LESS '-r'
+# set -x PAGER 'less -FX'
 
 # ALIAS
 alias grep='grep --color=auto'
