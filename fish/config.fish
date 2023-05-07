@@ -1,4 +1,6 @@
 # INIT
+# Needed on Darwin for some reason.
+if test -e /nix/var/nix/profiles/default/etc/profile.d/nix.fish; . /nix/var/nix/profiles/default/etc/profile.d/nix.fish; end
 
 # ENV
 # Path through: set -Ua fish_user_paths $HOME/.cargo/bin
