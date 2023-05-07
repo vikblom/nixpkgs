@@ -114,6 +114,7 @@ in
   xdg.configFile."i3/config".text = builtins.readFile ./i3;
   xdg.configFile."i3status/config".text = builtins.readFile ./i3status;
   xdg.configFile."rofi/config.rasi".text = builtins.readFile ./rofi;
+  xdg.configFile."alacritty/alacritty.yml".text = builtins.readFile ./alacritty.yml;
   # Collides with tools at work.
   # home.file.".gitconfig".source = ./git/gitconfig;
 
