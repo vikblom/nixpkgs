@@ -146,10 +146,4 @@ configuration {
   }
 }
 //@theme "/nix/store/v8zwvsj3qs43birf23ibic46xvxwkbr0-rofi-1.7.3/share/rofi/themes/DarkBlue.rasi"
-//@theme "/nix/store/ji6385q5iy4357wchvyshhyrazj7yj4h-rofi-1.7.5/share/rofi/themes/DarkBlue.rasi"
-//@theme "/nix/store/64vqfajllb3ying9bg6mqd0ls8qly29h-rofi-1.7.5/share/rofi/themes/DarkBlue.rasi"
-//@theme "/nix/store/nvq43nkl4m9plc207d6sffixi05kmsk8-rofi-1.7.5/share/rofi/themes/Arc-Dark.rasi"
-//@theme "/nix/store/3im22736zvc4wfmzxj0fdv27w2n1gb4k-rofi-1.7.5/share/rofi/themes/DarkBlue.rasi"
-//@theme "/nix/store/cvp7z56ydqv5jfqx34la49ghr5nyqc6n-rofi-1.7.5/share/rofi/themes/Arc-Dark.rasi"
-//@theme "/nix/store/vkmsyrl9zhgm03m9g8qbvj7nr1irmy6y-rofi-1.7.5/share/rofi/themes/Arc-Dark.rasi"
-@theme "/nix/store/4ls3r7qa1x75f52wybirsfw6a7p1mhf6-rofi-1.7.5/share/rofi/themes/Arc-Dark.rasi"
+//@theme "/nix/store/4ls3r7qa1x75f52wybirsfw6a7p1mhf6-rofi-1.7.5/share/rofi/themes/Arc-Dark.rasi"
