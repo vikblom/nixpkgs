@@ -54,12 +54,16 @@ in
     pkgs.fish
     pkgs.tmux
     pkgs.git
+    pkgs.openssh
     pkgs.direnv
-    pkgs.emacs28NativeComp
+    # pkgs.emacs28NativeComp
+    pkgs.neovim
+    pkgs.tree-sitter
 
-    pkgs.go
-    pkgs.gopls
-    pkgs.delve
+    # Skip so that we can use local variants.
+    # pkgs.go
+    # pkgs.gopls
+    # pkgs.delve
 
     # pkgs.rustc
     # pkgs.cargo
@@ -73,8 +77,6 @@ in
 
     pkgs.cmake
 
-    pkgs.clojure-lsp
-
     pkgs.bat
     pkgs.fd
     pkgs.htop
@@ -83,6 +85,7 @@ in
     pkgs.tree
     pkgs.watch
     pkgs.fzf
+    pkgs.iperf
 
     pkgs.kubectl
 
@@ -90,15 +93,16 @@ in
     pkgs.docker
     pkgs.docker-compose
 
-    pkgs.postgresql
+    pkgs.postgresql_15_jit
     pkgs.sqlite
     pkgs.dbmate
 
   ] ++ (lib.optionals isDarwin [
     pkgs.iterm2
-    pkgs.lima
-    pkgs.colima
+    #pkgs.lima
+    #pkgs.colima
     # pkgs.podman
+    pkgs.utm
 
   ]) ++ (lib.optionals isLinux [
     pkgs.alacritty
@@ -114,9 +118,13 @@ in
 
   home.sessionVariables = {
     EDITOR = "emacsclient -nw -a emacs";
+    # EDITOR = "nvim";
     LESS = "-r";
     PAGER = "less -FirSwX";
     MANPAGER = "${manpager}/bin/manpager";
+
+    LANG = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
   };
 
   # -- Dotfiles
@@ -132,7 +140,7 @@ in
   # -- Programs
 
   # home.file.".config/fish/config.fish".source = ./fish/config.fish;
-  # home.file.".config/fish/conf.d/nix.fish".source = ./fish/conf.d/nix.fish;
+  home.file.".config/fish/conf.d/nix.fish".source = ./fish/conf.d/nix.fish;
   # is replaced by?
   programs.fish = {
     enable = true;
@@ -153,8 +161,18 @@ in
     };
   };
 
-  # -- Graphics
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    }))
+    (a: b: { }) # Must return a set.
+  ];
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs-unstable;
+  };
 
+  # -- Graphics
   gtk = {
     enable = isLinux;
 
