@@ -86,8 +86,12 @@ in
     pkgs.watch
     pkgs.fzf
     pkgs.iperf
+    pkgs.pprof
 
     pkgs.kubectl
+    pkgs.istioctl
+    pkgs.kubernetes-helm
+    pkgs.argocd
 
     # Daemon installed separately
     pkgs.docker
