@@ -51,7 +51,7 @@ in
   # Find through: nix-env -qaP <pkg>
   # Or: https://search.nixos.org/packages
   home.packages = [
-    pkgs.fish
+    # pkgs.fish
     pkgs.tmux
     pkgs.git
     pkgs.openssh
@@ -59,6 +59,10 @@ in
     # pkgs.emacs28NativeComp
     pkgs.neovim
     pkgs.tree-sitter
+
+    # fonts
+    pkgs.roboto
+    pkgs.inconsolata
 
     # Skip so that we can use local variants.
     # pkgs.go
@@ -72,8 +76,8 @@ in
     # pkgs.gdb
     # pkgs.linuxPackages_latest.perf
 
-    pkgs.nixfmt
-    pkgs.rnix-lsp
+    pkgs.nixfmt-classic
+    pkgs.nil
 
     pkgs.cmake
 
@@ -167,7 +171,7 @@ in
 
   # nixpkgs.overlays = [
   #   (import (builtins.fetchTarball {
-  #     url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+  #     url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
   #   }))
   #   (a: b: { }) # Must return a set.
   # ];
