@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 # Nix config.
 # Most parts inspired/stolen from github.com/mitchellh/nixos-config.
@@ -16,11 +16,11 @@ let
   isLinux = pkgs.stdenv.isLinux;
 
   # Colorful MANPAGER
-  manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
-    sh -c 'col -bx | bat -l man -p'
-  '' else ''
-    col -bx | bat --language man --style plain
-  ''));
+  # manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
+  #   sh -c 'col -bx | bat -l man -p'
+  # '' else ''
+  #   col -bx | bat --language man --style plain
+  # ''));
 in
 {
   # This value determines the Home Manager release that your
@@ -129,7 +129,7 @@ in
     # EDITOR = "nvim";
     LESS = "-r";
     PAGER = "less -FirSwX";
-    MANPAGER = "${manpager}/bin/manpager";
+    # MANPAGER = "${manpager}/bin/manpager";
 
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
@@ -143,13 +143,14 @@ in
   xdg.configFile."rofi/config.rasi".text = builtins.readFile ./rofi;
   xdg.configFile."alacritty/alacritty.yml".text = builtins.readFile ./alacritty.yml;
   # Collides with tools at work.
-  # home.file.".gitconfig".source = ./git/gitconfig;
+  home.file.".gitconfig".source = ./git/gitconfig;
 
   # -- Programs
 
-  # home.file.".config/fish/config.fish".source = ./fish/config.fish;
+  # Patch up the nix env vars.
   home.file.".config/fish/conf.d/nix.fish".source = ./fish/conf.d/nix.fish;
-  # is replaced by?
+  # https://github.com/lilyball/nix-env.fish
+  home.file.".config/fish/conf.d/nix-env.fish".source = ./fish/conf.d/nix-env.fish;
   programs.fish = {
     enable = true;
     interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
