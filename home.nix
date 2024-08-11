@@ -112,6 +112,9 @@ in
     # pkgs.podman
     pkgs.utm
 
+    pkgs.yabai
+    pkgs.skhd
+
   ]) ++ (lib.optionals isLinux [
     pkgs.alacritty
     pkgs.kitty
@@ -137,20 +140,19 @@ in
 
   # -- Dotfiles
 
+  home.file.".gitconfig".source = ./git/gitconfig;
   home.file.".tmux.conf".source = ./tmux/tmux.conf;
   xdg.configFile."i3/config".text = builtins.readFile ./i3;
   xdg.configFile."i3status/config".text = builtins.readFile ./i3status;
   xdg.configFile."rofi/config.rasi".text = builtins.readFile ./rofi;
   xdg.configFile."alacritty/alacritty.yml".text = builtins.readFile ./alacritty.yml;
-  # Collides with tools at work.
-  home.file.".gitconfig".source = ./git/gitconfig;
 
   # -- Programs
 
-  # Patch up the nix env vars.
-  home.file.".config/fish/conf.d/nix.fish".source = ./fish/conf.d/nix.fish;
+  # Patch up the nix env vars on MacOS.
   # https://github.com/lilyball/nix-env.fish
-  home.file.".config/fish/conf.d/nix-env.fish".source = ./fish/conf.d/nix-env.fish;
+  home.file.".config/fish/conf.d/nix.fish".source = (if isDarwin then ./fish/conf.d/nix.fish else null);
+  home.file.".config/fish/conf.d/nix-env.fish".source = (if isDarwin then ./fish/conf.d/nix-env.fish else null);
   programs.fish = {
     enable = true;
     interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [

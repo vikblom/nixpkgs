@@ -7,6 +7,8 @@ home-manager switch --flake ~/nixpkgs
 
 Go setup to squeeze in before nix:
 ```
+> set -Ua fish_user_paths $HOME/local/go/bin
+> set -Ua fish_user_paths $HOME/go/bin
 > cat .zshrc
 export PATH=/Users/viktor/go/bin:$PATH
 ```
