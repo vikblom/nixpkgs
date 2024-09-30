@@ -23,6 +23,9 @@ let
   # ''));
 in
 {
+  # For terraform.
+  nixpkgs.config.allowUnfree = true;
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -68,6 +71,8 @@ in
     # pkgs.go
     # pkgs.gopls
     # pkgs.delve
+    # For profiling
+    pkgs.graphviz
 
     # pkgs.rustc
     # pkgs.cargo
@@ -100,10 +105,26 @@ in
     # Daemon installed separately
     pkgs.docker
     pkgs.docker-compose
+    pkgs.dive
 
-    pkgs.postgresql_15_jit
+    pkgs.postgresql_14_jit
     pkgs.sqlite
     pkgs.dbmate
+
+    # Klash
+    pkgs.awscli2
+    pkgs.azure-cli
+    pkgs.openvpn
+    pkgs.yarn
+    pkgs.nodejs_20
+    # pkgs.pyenv
+    # pkgs.pipx
+    pkgs.nodePackages.dotenv-cli
+    pkgs.nodePackages.prisma
+    pkgs.terraform
+    pkgs.redis
+    # brew'd
+    # tunnelto
 
   ] ++ (lib.optionals isDarwin [
     pkgs.iterm2
@@ -153,6 +174,8 @@ in
   # https://github.com/lilyball/nix-env.fish
   home.file.".config/fish/conf.d/nix.fish".source = (if isDarwin then ./fish/conf.d/nix.fish else null);
   home.file.".config/fish/conf.d/nix-env.fish".source = (if isDarwin then ./fish/conf.d/nix-env.fish else null);
+  # AWS autocomplete
+  home.file.".config/fish/conf.d/aws.fish".source = ./fish/conf.d/aws.fish;
   programs.fish = {
     enable = true;
     interactiveShellInit = lib.strings.concatStrings (lib.strings.intersperse "\n" [
