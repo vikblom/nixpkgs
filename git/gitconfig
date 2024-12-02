@@ -19,7 +19,7 @@
     default = current
 [core]
     excludesfile = ~/.gitignore
-	pager = less -FX
+	pager = bat -p
 [checkout]
     defaultRemote = origin
 #[branch]

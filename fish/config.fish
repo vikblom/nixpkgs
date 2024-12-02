@@ -61,7 +61,7 @@ function fish_prompt --description 'Write out the prompt'
     echo -n (basename $PWD)
 
     if test -n "$IN_NIX_SHELL"
-        echo -n " ❄️"
+        echo -n " ❄ "
     end
 
     set_color yellow

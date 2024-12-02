@@ -83,9 +83,12 @@ in
 
     pkgs.nixfmt-classic
     pkgs.nil
+    pkgs.nix-search-cli
 
     pkgs.cmake
 
+    pkgs.coreutils
+    pkgs.inetutils
     pkgs.bat
     pkgs.fd
     pkgs.htop
@@ -107,7 +110,7 @@ in
     pkgs.docker-compose
     pkgs.dive
 
-    pkgs.postgresql_14_jit
+    pkgs.postgresql_15_jit
     pkgs.sqlite
     pkgs.dbmate
 
@@ -115,16 +118,22 @@ in
     pkgs.awscli2
     pkgs.azure-cli
     pkgs.openvpn
-    pkgs.yarn
-    pkgs.nodejs_20
+    # pkgs.yarn
+    # pkgs.corepack
+    # pkgs.nodejs_20
+    pkgs.ffmpeg
     # pkgs.pyenv
     # pkgs.pipx
     pkgs.nodePackages.dotenv-cli
     pkgs.nodePackages.prisma
     pkgs.terraform
     pkgs.redis
+    pkgs.glab # gitlab cli
     # brew'd
     # tunnelto
+    pkgs.livekit
+    pkgs.livekit-cli
+    pkgs.nodePackages.prettier
 
   ] ++ (lib.optionals isDarwin [
     pkgs.iterm2
@@ -133,8 +142,8 @@ in
     # pkgs.podman
     pkgs.utm
 
-    pkgs.yabai
-    pkgs.skhd
+    # pkgs.yabai
+    # pkgs.skhd
 
   ]) ++ (lib.optionals isLinux [
     pkgs.alacritty
@@ -152,8 +161,11 @@ in
     EDITOR = "emacsclient -nw -a emacs";
     # EDITOR = "nvim";
     LESS = "-r";
-    PAGER = "less -FirSwX";
+    # PAGER = "less -x4 -FirSwX";
+    PAGER = "bat -p";
     # MANPAGER = "${manpager}/bin/manpager";
+
+    COMPOSE_MENU = "0";
 
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
