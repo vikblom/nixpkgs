@@ -50,10 +50,15 @@ in
 
   # -- Packages
 
+  # environment.systemPackages = [
+  #   ghostty.packages.x86_64-linux.default
+  # ];
+
   # Pkgs to install
   # Find through: nix-env -qaP <pkg>
   # Or: https://search.nixos.org/packages
   home.packages = [
+    # ghostty.packages.aarch64-darwin.default
     # pkgs.fish
     pkgs.tmux
     pkgs.git
@@ -118,6 +123,7 @@ in
     pkgs.awscli2
     pkgs.azure-cli
     pkgs.openvpn
+    pkgs.lftp
     # pkgs.yarn
     # pkgs.corepack
     # pkgs.nodejs_20
@@ -134,6 +140,7 @@ in
     pkgs.livekit
     pkgs.livekit-cli
     pkgs.nodePackages.prettier
+    pkgs.duckdb
 
   ] ++ (lib.optionals isDarwin [
     pkgs.iterm2
@@ -250,7 +257,6 @@ in
     };
   };
   home.sessionVariables.GTK_THEME = "palenight";
-  xresources.extraConfig = builtins.readFile ./Xresources;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
