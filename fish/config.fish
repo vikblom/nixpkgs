@@ -19,6 +19,7 @@ alias ssh='TERM=xterm-256color /usr/bin/ssh'
 alias dcu='docker compose up -d'
 alias dcd='docker ps --filter label=com.docker.compose.project -aq | xargs docker rm --volumes -f'
 alias cdg='cd (git rev-parse --show-toplevel)'
+alias tf='terraform'
 
 function ec --description 'emacsclient --nw ...'
     emacsclient --nw $argv
