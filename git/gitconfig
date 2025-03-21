@@ -35,6 +35,9 @@
 [init]
 	defaultBranch = main
 
+# [url "git@gitlab.com:"]
+#     insteadOf = https://gitlab.com/
+
 # Local overrides
 [include]
     path = ~/.gitconfig-local
